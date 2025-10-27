@@ -1,0 +1,456 @@
+{
+  "system": [
+    {
+      "title": "Sistema — información",
+      "desc": "Detalles del SO, hotfixes, dominio, hardware.",
+      "command": "systeminfo",
+      "args": []
+    },
+    {
+      "title": "Sistema — servicios",
+      "desc": "Lista todos los servicios y estados.",
+      "command": "sc query type= service state= all",
+      "args": [
+        "query",
+        "type= service",
+        "state= all"
+      ]
+    },
+    {
+      "title": "Sistema — iniciar/detener servicio",
+      "desc": "Control de un servicio por nombre.",
+      "command": "sc start <servicio> & sc stop <servicio>",
+      "args": [
+        "start <nombre>",
+        "stop <nombre>"
+      ]
+    },
+    {
+      "title": "Sistema — procesos",
+      "desc": "Lista y termina procesos por PID.",
+      "command": "tasklist & taskkill /PID <pid> /F",
+      "args": [
+        "tasklist",
+        "/PID <pid>",
+        "/F"
+      ]
+    },
+    {
+      "title": "Sistema — discos (WMIC)",
+      "desc": "Tamaño y espacio libre por volumen.",
+      "command": "wmic logicaldisk get caption,freespace,size,filesystem",
+      "args": [
+        "logicaldisk get"
+      ]
+    },
+    {
+      "title": "Sistema — VSS",
+      "desc": "Instantáneas de volumen.",
+      "command": "vssadmin list shadows",
+      "args": [
+        "list shadows"
+      ]
+    },
+    {
+      "title": "Sistema — drivers",
+      "desc": "Controladores instalados.",
+      "command": "driverquery /v /fo table",
+      "args": [
+        "/v",
+        "/fo table|csv|list"
+      ]
+    },
+    {
+      "title": "Sistema — KBs (PS)",
+      "desc": "Lista hotfixes instalados (PowerShell desde CMD).",
+      "command": "powershell -command \"Get-HotFix | Sort InstalledOn | Select HotFixID,InstalledOn | Format-Table -Auto\"",
+      "args": [
+        "Get-HotFix"
+      ]
+    }
+  ],
+  "security": [
+    {
+      "title": "Seguridad — deshabilitar UAC",
+      "desc": "Apaga UAC (requiere reinicio).",
+      "command": "reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 0 /f",
+      "args": [
+        "/v EnableLUA",
+        "/t REG_DWORD",
+        "/d 0",
+        "/f"
+      ]
+    },
+    {
+      "title": "Seguridad — habilitar UAC",
+      "desc": "Enciende UAC (requiere reinicio).",
+      "command": "reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System /v EnableLUA /t REG_DWORD /d 1 /f",
+      "args": [
+        "/d 1"
+      ]
+    },
+    {
+      "title": "Seguridad — auditpol ON",
+      "desc": "Habilita auditoría de éxito y fallo para todas las categorías.",
+      "command": "powershell -command \"auditpol /set /category:* /success:enable /failure:enable\"",
+      "args": [
+        "/set /category:*",
+        "/success:enable",
+        "/failure:enable"
+      ]
+    },
+    {
+      "title": "Seguridad — auditpol reset",
+      "desc": "Restaura auditoría a valores por defecto.",
+      "command": "auditpol /clear /y",
+      "args": [
+        "/clear",
+        "/y"
+      ]
+    },
+    {
+      "title": "Seguridad — ver auditoría",
+      "desc": "Muestra políticas de auditoría efectivas.",
+      "command": "auditpol /get /category:*",
+      "args": [
+        "/get /category:*"
+      ]
+    },
+    {
+      "title": "Seguridad — Defender ON",
+      "desc": "Activa protección en tiempo real (PS desde CMD).",
+      "command": "powershell -command \"Set-MpPreference -DisableRealtimeMonitoring $false\"",
+      "args": [
+        "-DisableRealtimeMonitoring"
+      ]
+    },
+    {
+      "title": "Seguridad — Defender OFF",
+      "desc": "Desactiva protección en tiempo real (PS desde CMD).",
+      "command": "powershell -command \"Set-MpPreference -DisableRealtimeMonitoring $true\"",
+      "args": [
+        "$true"
+      ]
+    },
+    {
+      "title": "Seguridad — eventos 4624/4625",
+      "desc": "Últimos 20 eventos de inicio de sesión correcto/fallido.",
+      "command": "wevtutil qe Security \"/q:*[System[(EventID=4624 or EventID=4625)]]\" /f:text /c:20",
+      "args": [
+        "/q:",
+        "/f:text",
+        "/c:20"
+      ]
+    }
+  ],
+  "network": [
+    {
+      "title": "Red — ipconfig",
+      "desc": "Configuración IP y caché DNS.",
+      "command": "ipconfig",
+      "args": [
+        "/all",
+        "/release",
+        "/renew",
+        "/flushdns",
+        "/displaydns"
+      ]
+    },
+    {
+      "title": "Red — ping",
+      "desc": "ICMP echo a un host.",
+      "command": "ping 8.8.8.8",
+      "args": [
+        "-n <num>",
+        "-a",
+        "-l <bytes>"
+      ]
+    },
+    {
+      "title": "Red — tracert",
+      "desc": "Rastrea saltos hasta el destino.",
+      "command": "tracert 8.8.8.8",
+      "args": [
+        "-d",
+        "-h <saltos>"
+      ]
+    },
+    {
+      "title": "Red — nslookup",
+      "desc": "Consultas DNS comunes.",
+      "command": "nslookup www.microsoft.com",
+      "args": [
+        "-type=SRV",
+        "-type=MX"
+      ]
+    },
+    {
+      "title": "Red — netstat",
+      "desc": "Conexiones, puertos y proceso asociado (requiere elevar para -b).",
+      "command": "netstat -abno",
+      "args": [
+        "-a",
+        "-b",
+        "-n",
+        "-o"
+      ]
+    },
+    {
+      "title": "Red — vecinos (ARP)",
+      "desc": "Tabla ARP/vecinos con PowerShell (reemplazo moderno de arp.exe).",
+      "command": "powershell -command \"Get-NetNeighbor | Sort-Object ifIndex | Format-Table -Auto\"",
+      "args": [
+        "Get-NetNeighbor",
+        "-AddressFamily IPv4|IPv6",
+        "-State Reachable|Stale|..."
+      ]
+    },
+    {
+      "title": "Red — rutas",
+      "desc": "Tabla de rutas con PowerShell.",
+      "command": "powershell -command \"Get-NetRoute | Sort-Object DestinationPrefix | Format-Table -Auto\"",
+      "args": [
+        "Get-NetRoute",
+        "-DestinationPrefix",
+        "-InterfaceAlias"
+      ]
+    },
+    {
+      "title": "Red — consulta SRV AD",
+      "desc": "Busca DCs publicados en DNS del dominio actual.",
+      "command": "nslookup -type=SRV _ldap._tcp.dc._msdcs.%USERDNSDOMAIN%",
+      "args": []
+    }
+  ],
+  "gpo": [
+    {
+      "title": "GPO — actualizar",
+      "desc": "Actualiza políticas de equipo y usuario.",
+      "command": "gpupdate /force",
+      "args": [
+        "/force",
+        "/target:computer|user",
+        "/wait:<seg>"
+      ]
+    },
+    {
+      "title": "GPO — resultado (texto)",
+      "desc": "RSOP básico para usuario y equipo.",
+      "command": "gpresult /r /scope user & gpresult /r /scope computer",
+      "args": [
+        "/r",
+        "/scope user|computer"
+      ]
+    },
+    {
+      "title": "GPO — RSOP HTML",
+      "desc": "Exporta RSOP en HTML.",
+      "command": "gpresult /h C:\\Temp\\rsop.html",
+      "args": [
+        "/h <ruta>"
+      ]
+    },
+    {
+      "title": "GPO — listar (PS)",
+      "desc": "Lista todas las GPOs (módulo GroupPolicy).",
+      "command": "powershell -command \"Get-GPO -All | Select DisplayName,Id,CreationTime | Sort DisplayName | Format-Table -Auto\"",
+      "args": [
+        "Get-GPO -All"
+      ]
+    },
+    {
+      "title": "GPO — vínculos/reportes (PS)",
+      "desc": "Genera reporte XML de una GPO.",
+      "command": "powershell -command \"Get-GPO -Name \"NombreGPO\" | Get-GPOReport -ReportType XML -Path C:\\Temp\\gpo.xml\"",
+      "args": [
+        "Get-GPOReport"
+      ]
+    },
+    {
+      "title": "GPO — GPResult HTML (PS)",
+      "desc": "Genera RSOP HTML con cmdlet.",
+      "command": "powershell -command \"Get-GPResultantSetOfPolicy -ReportType Html -Path C:\\Temp\\GPResult.html\"",
+      "args": [
+        "-ReportType Html",
+        "-Path <ruta>"
+      ]
+    }
+  ],
+  "firewall": [
+    {
+      "title": "Firewall — habilitar perfiles",
+      "desc": "Enciende el firewall en Domain, Private y Public (PowerShell desde CMD).",
+      "command": "powershell -command \"Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True\"",
+      "args": [
+        "-Profile",
+        "-Enabled <True|False>"
+      ]
+    },
+    {
+      "title": "Firewall — deshabilitar perfiles",
+      "desc": "Apaga el firewall en los tres perfiles (PowerShell desde CMD).",
+      "command": "powershell -command \"Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False\"",
+      "args": []
+    },
+    {
+      "title": "Firewall — regla permitir puerto",
+      "desc": "Permite TCP 3389 entrante con netsh.",
+      "command": "netsh advfirewall firewall add rule name=\"Permitir_3389_IN\" dir=in action=allow protocol=TCP localport=3389",
+      "args": [
+        "name",
+        "dir=in|out",
+        "action=allow|block",
+        "protocol=TCP|UDP",
+        "localport=<puerto>"
+      ]
+    },
+    {
+      "title": "Firewall — bloquear IP",
+      "desc": "Bloquea tráfico desde IP remota específica.",
+      "command": "netsh advfirewall firewall add rule name=\"Bloquear_IP\" dir=in action=block remoteip=203.0.113.10",
+      "args": [
+        "remoteip"
+      ]
+    },
+    {
+      "title": "Firewall — listar reglas (PS)",
+      "desc": "Lista reglas que contengan 'RDP'.",
+      "command": "powershell -command \"Get-NetFirewallRule -DisplayName *RDP* | Format-Table -Auto\"",
+      "args": [
+        "-DisplayName"
+      ]
+    },
+    {
+      "title": "Firewall — eliminar regla (PS)",
+      "desc": "Elimina una regla por nombre.",
+      "command": "powershell -command \"Get-NetFirewallRule -DisplayName \"Permitir_3389_IN\" | Remove-NetFirewallRule -Confirm:$false\"",
+      "args": [
+        "-Confirm:$false"
+      ]
+    },
+    {
+      "title": "Firewall — log: dropped ON",
+      "desc": "Registra conexiones denegadas en el perfil actual.",
+      "command": "netsh advfirewall set currentprofile logging droppedconnections enable",
+      "args": [
+        "currentprofile",
+        "logging droppedconnections"
+      ]
+    },
+    {
+      "title": "Firewall — log: dropped OFF",
+      "desc": "Detiene el log de conexiones denegadas.",
+      "command": "netsh advfirewall set currentprofile logging droppedconnections disable",
+      "args": []
+    },
+    {
+      "title": "Firewall — log: allowed ON",
+      "desc": "Registra conexiones permitidas en el perfil actual.",
+      "command": "netsh advfirewall set currentprofile logging allowedconnections enable",
+      "args": [
+        "logging allowedconnections"
+      ]
+    },
+    {
+      "title": "Firewall — log: allowed OFF",
+      "desc": "Detiene el log de conexiones permitidas.",
+      "command": "netsh advfirewall set currentprofile logging allowedconnections disable",
+      "args": []
+    },
+    {
+      "title": "Firewall — ruta y tamaño log",
+      "desc": "Define ubicación del log y tamaño máximo.",
+      "command": "netsh advfirewall set currentprofile logging filename \"C:\\Windows\\System32\\LogFiles\\Firewall\\pfirewall.log\" maxfilesize 16384",
+      "args": [
+        "filename",
+        "maxfilesize <KB>"
+      ]
+    }
+  ],
+  "ad": [
+    {
+      "title": "AD — identidad y grupos",
+      "desc": "Usuario actual y SIDs/grupos.",
+      "command": "whoami /user /groups",
+      "args": [
+        "/user",
+        "/groups"
+      ]
+    },
+    {
+      "title": "AD — pertenencia a dominio",
+      "desc": "Ver dominio en systeminfo.",
+      "command": "systeminfo | findstr /i Domain",
+      "args": [
+        "/i"
+      ]
+    },
+    {
+      "title": "AD — listar DCs",
+      "desc": "Controladores de dominio publicados para el dominio actual.",
+      "command": "nltest /dclist:%USERDNSDOMAIN%",
+      "args": [
+        "/dclist:<dominio>"
+      ]
+    },
+    {
+      "title": "AD — sitio del equipo",
+      "desc": "Devuelve el sitio AD del equipo.",
+      "command": "nltest /dsgetsite",
+      "args": [
+        "/dsgetsite"
+      ]
+    },
+    {
+      "title": "AD — canal seguro",
+      "desc": "Verifica canal seguro con el dominio.",
+      "command": "nltest /sc_verify:%USERDNSDOMAIN%",
+      "args": [
+        "/sc_verify:<dom>"
+      ]
+    },
+    {
+      "title": "AD — usuario de dominio",
+      "desc": "Atributos básicos del usuario.",
+      "command": "net user <usuario> /domain",
+      "args": [
+        "<usuario>",
+        "/domain"
+      ]
+    },
+    {
+      "title": "AD — grupo de dominio",
+      "desc": "Miembros del grupo.",
+      "command": "net group <grupo> /domain",
+      "args": [
+        "<grupo>",
+        "/domain"
+      ]
+    },
+    {
+      "title": "AD — replicación (DC)",
+      "desc": "Resumen de replicación entre DCs.",
+      "command": "repadmin /replsummary",
+      "args": [
+        "/replsummary"
+      ]
+    },
+    {
+      "title": "AD — diagnóstico (DC)",
+      "desc": "Pruebas de salud del dominio.",
+      "command": "dcdiag /v",
+      "args": [
+        "/v"
+      ]
+    },
+    {
+      "title": "AD — RSAT (PS)",
+      "desc": "Ejemplo: listar 10 usuarios con nombre y SAM (PowerShell desde CMD).",
+      "command": "powershell -command \"Get-ADUser -Filter * -ResultSetSize 10 | Select Name,SamAccountName | Format-Table -Auto\"",
+      "args": [
+        "-Filter *",
+        "-ResultSetSize 10"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creador de Reglas · Biblioteca Wintel</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  
+<header>
+  <div class="brand"><strong>Biblioteca Wintel</strong><span class="badge">offline</span></div>
+  
+    <nav>
+      <a href="/views/index.html">Inicio</a>
+      <a href="/views/network.html">Red</a>
+      <a href="/views/security.html">Seguridad</a>
+      <a href="/views/firewall.html">Firewall</a>
+      <a href="/views/firewall-builder.html">Creador de reglas</a>
+      <a href="/views/ad.html">Active Directory</a>
+      <a href="/views/gpo.html">GPOs</a>
+      <a href="/views/system.html">Sistema</a>
+      <a href="/views/editor.html">Editor</a>
+    </nav>
+    
+  <div class="banner"><a href="https://deeparmy.io/" target="_blank" rel="noopener"><img src="/img/deeparmy.svg" alt="Deep Army" /></a></div>
+</header>
+
+  <div class="container">
+    <div class="card">
+      <h1>Creador de Reglas de Firewall (netsh)</h1>
+      <p class="desc">Genera reglas <kbd>netsh advfirewall firewall add rule</kbd> para puertos, programas, IPs o rangos. Compatible con rangos y múltiples valores.</p>
+      <p class="muted">Basado en tu generador previo como referencia.</p>
+    </div>
+
+    <div class="form">
+      <div class="grid">
+        <div class="row"><label>Nombre</label><input id="name" placeholder="Regla_Custom"></div>
+        <div class="row"><label>Dirección</label><select id="dir"><option value="in">Entrada</option><option value="out">Salida</option></select></div>
+        <div class="row"><label>Acción</label><select id="action"><option value="allow">Permitir</option><option value="block">Bloquear</option></select></div>
+        <div class="row"><label>Protocolo</label><select id="proto"><option>TCP</option><option>UDP</option><option>ANY</option></select></div>
+        <div class="row"><label>Puerto local (opcional)</label><input id="lport" placeholder="3389 o 80,443 o 1000-2000"></div>
+        <div class="row"><label>Puerto remoto (opcional)</label><input id="rport" placeholder="* o 53"></div>
+        <div class="row"><label>IP/Segmento remoto (opcional)</label><input id="rip" placeholder="192.168.1.0/24,10.0.0.0/8,8.8.8.8"></div>
+        <div class="row"><label>Aplicación (opcional)</label><input id="program" placeholder="C:\Ruta\App.exe"></div>
+        <div class="row"><label>Perfiles</label><select id="profile" multiple size="3"><option>Domain</option><option>Private</option><option>Public</option></select></div>
+        <div class="row"><label>Habilitada</label><select id="enabled"><option>yes</option><option>no</option></select></div>
+        <div class="row"><label>Borde (edge)</label><select id="edge"><option>no</option><option>yes</option></select></div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="build()">Generar</button>
+        <button class="btn" onclick="copyOut()">Copiar</button>
+        <button class="btn" onclick="resetForm()">Limpiar</button>
+      </div>
+      <div id="out" class="out"></div>
+      <p class="muted">Múltiples valores separados por comas. Protocolo <kbd>ANY</kbd> = omitir <kbd>protocol=</kbd>.</p>
+    </div>
+  </div>
+</body>
+</html>
