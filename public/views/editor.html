@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Editor de Cards · Biblioteca Wintel</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header>
+  <div class="brand"><strong>Biblioteca Wintel</strong><span class="badge">offline</span></div>
+
+  <nav>
+    <a href="/views/index.html">Inicio</a>
+    <a href="/views/network.html">Red</a>
+    <a href="/views/security.html">Seguridad</a>
+    <a href="/views/firewall.html">Firewall</a>
+    <a href="/views/firewall-builder.html">Creador de reglas</a>
+    <a href="/views/ad.html">Active Directory</a>
+    <a href="/views/gpo.html">GPOs</a>
+    <a href="/views/system.html">Sistema</a>
+    <a href="/views/editor.html">Editor</a>
+  </nav>
+
+  <div class="banner"><a href="https://deeparmy.io/" target="_blank" rel="noopener"><img src="/img/deeparmy.svg" alt="Deep Army" /></a></div>
+</header>
+
+<div class="container">
+  <h1>Editor de Cards</h1>
+  <p class="muted">Aquí puedes agregar, editar o eliminar comandos del sistema. Los cambios se guardan directamente en <code>data/cards.json</code>.</p>
+
+  <!-- 🔹 Formulario -->
+  <div class="form">
+    <form id="form-card">
+      <div class="grid">
+        <div class="row">
+          <label for="category">Categoría</label>
+          <input type="text" id="category" placeholder="Ej: network" required>
+        </div>
+        <div class="row">
+          <label for="title">Título</label>
+          <input type="text" id="title" placeholder="Ej: Ping a servidor" required>
+        </div>
+        <div class="row">
+          <label for="desc">Descripción</label>
+          <input type="text" id="desc" placeholder="Explica el comando..." required>
+        </div>
+        <div class="row">
+          <label for="command">Comando</label>
+          <input type="text" id="command" placeholder="Ej: ping 8.8.8.8" required>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn add">Agregar</button>
+        <button type="reset" class="btn small" id="cancel-edit" style="display:none;">Cancelar edición</button>
+      </div>
+    </form>
+    <div id="message" class="muted" style="margin-top:10px;"></div>
+  </div>
+
+  <h2 style="margin-top:28px;">📚 Lista de Cards</h2>
+  <div id="cards-list"></div>
+</div>
+
+<footer>Si puedes mejorar el código hazlo, este proyecto es de todos</footer>
+<script src="/js/editor.js"></script>
+</body>
+</html>
