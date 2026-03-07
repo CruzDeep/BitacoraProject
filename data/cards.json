@@ -452,5 +452,55 @@
         "-ResultSetSize 10"
       ]
     }
+  ],
+  "logs": [
+    {
+      "title": "Eventos de aplicación",
+      "desc": "Muestra los últimos 20 eventos de la aplicación",
+      "command": "wevtutil qe Application /c:20 /f:text",
+      "args": ["/c:20", "/f:text", "/e"]
+    },
+    {
+      "title": "Eventos de sistema",
+      "desc": "Muestra los últimos 20 eventos del sistema",
+      "command": "wevtutil qe System /c:20 /f:text",
+      "args": ["/c:20", "/f:text"]
+    },
+    {
+      "title": "Eventos de seguridad",
+      "desc": "Muestra los últimos 20 eventos de seguridad",
+      "command": "wevtutil qe Security /c:20 /f:text",
+      "args": ["/c:20", "/f:text"]
+    },
+    {
+      "title": "Buscar evento específico",
+      "desc": "Busca eventos con ID específico",
+      "command": "wevtutil qe Security \"/q:*[System[(EventID=4624)]]\" /f:text /c:20",
+      "args": ["/q:*[System[(EventID)]]", "/f:text", "/c:20"]
+    },
+    {
+      "title": "Logs de PowerShell",
+      "desc": "Últimos eventos de PowerShell",
+      "command": "wevtutil qe 'Windows PowerShell' /c:20 /f:text",
+      "args": ["/c:20", "/f:text"]
+    },
+    {
+      "title": "Logs de firewall",
+      "desc": "Eventos de firewall",
+      "command": "wevtutil qe 'Microsoft-Windows-Windows Firewall With Advanced Security/Firewall' /c:20 /f:text",
+      "args": ["/c:20", "/f:text"]
+    },
+    {
+      "title": "Exportar logs a archivo",
+      "desc": "Exporta eventos de sistema a un archivo CSV",
+      "command": "wevtutil epl System C:\\Temp\\system_logs.evtx",
+      "args": ["epl", "System", "C:\\Temp\\logs.evtx"]
+    },
+    {
+      "title": "Limpiar log de aplicación",
+      "desc": "Borra todos los eventos del log de aplicación",
+      "command": "wevtutil cl Application",
+      "args": ["cl", "Application"]
+    }
   ]
 }
